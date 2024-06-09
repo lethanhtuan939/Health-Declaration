@@ -1,0 +1,19 @@
+<div class="min-h-screen flex items-start justify-center bg-gray-100">
+    <div class="bg-white mt-8 p-6 rounded-lg shadow-md w-full max-w-md">
+        <div class="flex justify-center flex-col items-center">
+            <img src="assets/images/logo.png" alt="logo" class="w-20 h-20">
+            <h1 class="text-2xl mt-4 font-bold mb-4 text-center">Xác thực đăng ký</h1>
+            <div *ngIf="isSuccess" class="text-center">
+                <p class="text-green-700 mb-4">Tài khoản của bạn đã được xác thực thành công!
+                </p>
+                <a routerLink="/auth/login" class="px-4 py-2 bg-blue-500 rounded-md text-white font-semibold">Đăng nhập</a>
+            </div>
+
+            <div *ngIf="!isSuccess" class="text-center">
+                <p class="text-rose-700 text-center mb-4">Tài khoản của bạn không được xác thực. Đã xảy ra lỗi, vui lòng đăng kí lại!</p>
+                <a routerLink="/auth/register" class="px-4 py-2 bg-rose-500 rounded-md text-white font-semibold">Đăng kí</a>
+            </div>
+        </div>
+    </div>
+
+    <app-loading *ngIf="isLoading"></app-loading>

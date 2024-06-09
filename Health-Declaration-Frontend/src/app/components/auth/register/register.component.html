@@ -1,0 +1,90 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-200">
+    <div class="bg-white shadow-md rounded-lg px-8 py-6 max-w-md w-full">
+        <h1 class="text-2xl font-bold text-center mb-4">Chào mừng bạn đến với hệ thống khai báo y tế thành phố Đà Nẵng</h1>
+        <div class="flex justify-center items-center mb-4">
+            <img src="assets/images/logo.png" alt="Icon" class="h-14" />
+        </div>
+        <div class="text-rose-500 text-sm text-center" *ngIf="isError">
+            {{message}}
+        </div>
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()" (keypress.enter)="onRegister()">
+            <div class="mb-4">
+                <label for="idCard" class="block text-sm font-medium text-gray-700 mb-2">Số CCCD</label>
+                <input type="text" id="idCard" class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="CCCD"
+                    required formControlName="idCard">
+                <div class="text-rose-500 text-sm" *ngIf="(registerForm.get('idCard')?.errors?.['required'] && registerForm.controls['idCard'].touched)">
+                    IdCard is required!
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Your Email Address</label>
+                <input type="email" id="email" class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="your@email.com" required formControlName="email">
+                <div class="text-rose-500 text-sm" *ngIf="(registerForm.get('email')?.errors?.['email'] && registerForm.controls['email'].touched)">
+                    This field must be email!
+                </div>
+                <div class="text-rose-500 text-sm" *ngIf="(registerForm.get('email')?.errors?.['required'] && registerForm.controls['email'].touched)">
+                    Email is required!
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <input type="password" id="password" class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Nhập mật khẩu" required formControlName="password">
+                <div class="text-rose-500 text-sm" *ngIf="(registerForm.get('password')?.errors?.['required'] && registerForm.controls['password'].touched)">
+                    Password is required!
+                </div>
+                <div class="text-sm text-rose-500" *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.controls['password'].dirty">
+                    The password must be at least 3 characters!
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="repeatPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                <input type="password" id="repeatPassword" class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Xác nhận mật khẩu" required formControlName="repeatPassword">
+                <div class="text-rose-500 text-sm" *ngIf="(registerForm.get('repeatPassword')?.errors?.['required'] && registerForm.controls['repeatPassword'].touched)">
+                    Confirm password is required!
+                </div>
+                <div class="text-sm text-rose-500" *ngIf="registerForm.hasError('passwordMismatch')">
+                    Passwords do not match!
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                <select id="gender" class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required
+                    formControlName="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <div class="text-rose-500 text-sm" *ngIf="(registerForm.get('gender')?.errors?.['required'] && registerForm.controls['gender'].touched)">
+                    Gender is required!
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                <input type="text" id="address" class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Nhập địa chỉ" required formControlName="address">
+
+                <div class="text-rose-500 text-sm" *ngIf="(registerForm.get('address')?.errors?.['required'] && registerForm.controls['address'].touched)">
+                    Address is required!
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="healthInsuranceNumber" class="block text-sm font-medium text-gray-700 mb-2">Health Insurance Number</label>
+                <input type="text" id="healthInsuranceNumber" class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Nhập số BHYT" required formControlName="healthInsuranceNumber">
+                <div class="text-rose-500 text-sm" *ngIf="(registerForm.get('healthInsuranceNumber')?.errors?.['required'] && registerForm.controls['healthInsuranceNumber'].touched)">
+                    BHYT is required!
+                </div>
+            </div>
+            <div class="flex items-center justify-between mb-4">
+                <a routerLink="/auth/login" class="text-xs text-indigo-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Have an account? <strong>Login</strong>
+                </a>
+            </div>
+            <app-spinner-button #spinnerButton [buttonText]="'Đăng ký'" [formValid]="registerForm.valid" (buttonClick)="onRegister()">
+            </app-spinner-button>
+        </form>
+    </div>
+</div>

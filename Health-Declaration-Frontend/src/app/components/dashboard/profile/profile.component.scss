@@ -1,0 +1,9 @@
+.profile-cols {
+    grid-template-columns: 20% 50% 30%;
+}
+
+@media screen and (max-width: 768px) {
+    .profile-cols {
+        grid-template-columns: 1fr;
+    }
+}

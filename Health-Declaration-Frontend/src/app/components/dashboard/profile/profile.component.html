@@ -1,0 +1,150 @@
+<div class="border-b-2 border-gray-200 flex items-center px-4 md:px-0 lg:px-0">
+    <div class="w-[50px] lg:w-[100px] mb-3">
+        <img class="rounded-full w-full" [src]="user.avatar" alt="">
+    </div>
+    <div class="mx-4 flex items-start flex-col">
+        <h2 class="font-bold">{{user.fullName}}</h2>
+        <p>Cán bộ y tế</p>
+    </div>
+</div>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="px-6 lg:px-0 profile-cols grid lg:grid-cols-3 mt-5 gap-8">
+    <div class="flex flex-col lg:w-64 h-auto pr-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l">
+        <div class="flex flex-col justify-between flex-1">
+            <app-profile-sidebar></app-profile-sidebar>
+        </div>
+    </div>
+    <div class="border-t-2 border-gray-200 pt-2 lg:border-none lg:order-2 order-3">
+        <div>
+            <div class="space-y-12">
+                <div class="border-b border-gray-900/10 pb-10">
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Thông tin cá nhân</h2>
+                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            <label for="roles" class="block text-sm font-medium leading-6 text-gray-900">Vai trò</label>
+                            <div class="mt-2">
+                                <input type="text" name="roles" id="roles" [value]="rolesString" disabled
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="role" class="block text-sm font-medium leading-6 text-gray-900">Trạng thái</label>
+                            <div class="mt-2">
+                                <input formControlName="status" id="status" name="status" type="text" autocomplete="status"
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-5">
+                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Họ và tên</label>
+                            <div class="mt-2">
+                                <input formControlName="fullName" type="text" name="first-name" id="first-name" autocomplete="given-name"
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                            <label for="gender" class="block text-sm font-medium leading-6 text-gray-900">Giới tính</label>
+                            <div class="mt-2 flex">
+                                <div class="flex items-center me-10">
+                                    <input id="male" type="radio" formControlName="gender" value="male" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                    <label for="male" class="ms-2 text-sm font-medium text-gray-900">Nam</label>
+                                </div>
+                                <div class="flex items-center me-10">
+                                    <input id="female" type="radio" formControlName="gender" value="female" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                    <label for="female" class="ms-2 text-sm font-medium text-gray-900">Nữ</label>
+                                </div>
+                                <div class="flex items-center me-10">
+                                    <input id="other" type="radio" formControlName="gender" value="other" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                    <label for="other" class="ms-2 text-sm font-medium text-gray-900">Khác</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                            <label for="birthday" class="block text-sm font-medium leading-6 text-gray-900">Ngày sinh</label>
+                            <div class="mt-2">
+                                <input formControlName="dateOfBirth" id="birthday" name="birthday" type="date"
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                            <div class="mt-2">
+                                <input formControlName="email" id=" email" name="email" type="email" autocomplete="email"
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                            <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Số điện thoại</label>
+                            <div class="mt-2">
+                                <input formControlName="phone" id="phone" name="phone" type="phone" autocomplete="phone"
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                            <label for="idCard" class="block text-sm font-medium leading-6 text-gray-900">Số CCCD</label>
+                            <div class="mt-2">
+                                <input formControlName="idCard" id="idCard" name="idCard" type="text" autocomplete="id"
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                            <label for="healthInsuranceNumber" class="block text-sm font-medium leading-6 text-gray-900">Số thẻ BHYT</label>
+                            <div class="mt-2">
+                                <input formControlName="healthInsuranceNumber" id="healthInsuranceNumber" name="healthInsuranceNumber" type="healthInsuranceNumber" autocomplete="healthInsuranceNumber"
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+
+                        <div class="col-span-full">
+                            <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Địa chỉ</label>
+                            <div class="mt-2">
+                                <textarea formControlName="address" type="text" name="street-address" id="street-address" autocomplete="street-address"
+                                    class="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+                <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Hủy bỏ</button>
+                <!-- <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 
+                    focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Lưu thay đổi
+                </button> -->
+
+                <app-spinner-button #spinnerButton [buttonText]="'Lưu thay đổi'" [formValid]="profileForm.valid" (buttonClick)="onSubmit()">
+                </app-spinner-button>
+            </div>
+        </div>
+    </div>
+    <div class="border-t-2 border-gray-200 pt-2 lg:border-none lg:order-3 order-2">
+        <div class="flex flex-col mt-4 lg:mt-0 items-start lg:items-end">
+            <div class="border-b border-gray-300 pb-6">
+                <p class="block mb-4 text-lg font-medium text-gray-90">Avatar</p>
+                <div class="w-[100px] h-[100px] mb-3">
+                    <img class="rounded-full w-[100px] h-[100px]" [src]="selectedImageUrl" alt="">
+                </div>
+
+                <label class="block mb-2 text-sm font-medium text-gray-90" for="avatar">Chọn ảnh</label>
+
+                <input (change)="onFileSelected($event)" id="avatar" class="block w-[60%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                    type="file">
+            </div>
+
+            <div class="pt-6">
+                <p class="block mb-4 text-lg font-medium text-gray-90">Mã QR của bạn</p>
+                <div class="w-[50%] mb-3">
+                    <img class="w-full" src="https://th.bing.com/th/id/OIP.8GITPU9X6qcG6ESNNoBcjwHaHa?w=209&h=209&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<app-loading *ngIf="isLoading"></app-loading>

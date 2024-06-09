@@ -1,0 +1,29 @@
+.banner {
+    grid-template-columns: 60% 40%;
+}
+
+.main-bg {
+    background-position-x: center;
+    background-position-y: 0px;
+    background-size: initial;
+    background-repeat: no-repeat;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+}
+
+.ct-subheadline {
+    @apply flex justify-center items-center;
+}
+
+.ct-subheadline-deco-line {
+    @apply w-32 h-px bg-[#7FC1DC];
+}
+
+.ct-subheadline-label {
+    @apply uppercase mx-8 text-center text-[30px];
+}
+
+.mobile-image {
+    width: 95%;
+}

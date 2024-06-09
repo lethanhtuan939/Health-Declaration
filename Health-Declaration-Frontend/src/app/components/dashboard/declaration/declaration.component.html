@@ -1,0 +1,145 @@
+<form class="lg:mx-0 mx-4">
+    <div class="space-y-10">
+        <div class="flex md:items-center justify-end md:justify-between flex-col md:flex-row">
+            <div class="border-b border-gray-900/10 pb-4">
+                <h2 class="text-2xl mb-2 font-semibold leading-7 text-gray-900">Tờ khai y tế</h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
+            </div>
+
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+                <button type="button" class="text-sm font-semibold leading-6 text-gray-900 underline">Hủy bỏ</button>
+                <!-- <button type="submit" disabled
+                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Lưu thông tin
+                </button> -->
+                <app-spinner-button [buttonText]="'Lưu thông tin'"></app-spinner-button>
+            </div>
+        </div>
+
+        <div class="border-b border-gray-900/10 pb-12">
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-full">
+                    <label class="block text-sm font-medium leading-6 text-gray-900">Loại khai báo</label>
+                    <div class="mt-2 flex items-center">
+                        <div class="flex items-center me-20">
+                            <input id="inline-radio" type="radio" value="Bệnh nhân" name="type_declare" checked class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                            <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900">Bệnh nhân</label>
+                        </div>
+                        <div class="flex items-center me-20">
+                            <input id="inline-2-radio" type="radio" value="Người nhà" name="type_declare" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                            <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900">Người nhà</label>
+                        </div>
+                        <div class="flex items-center me-20">
+                            <input id="inline-3-radio" type="radio" value="Khai hộ" name="type_declare" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                            <label for="inline-3-radio" class="ms-2 text-sm font-medium text-gray-900">Khai hộ</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sm:col-span-3">
+                    <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+                    <div class="mt-2">
+                        <input type="text" name="first-name" id="first-name" autocomplete="given-name"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                </div>
+
+                <div class="sm:col-span-3">
+                    <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
+                    <div class="mt-2">
+                        <input type="text" name="last-name" id="last-name" autocomplete="family-name"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                </div>
+
+                <div class="sm:col-span-4">
+                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+                    <div class="mt-2">
+                        <input id="email" name="email" type="email" autocomplete="email"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                </div>
+
+                <div class="sm:col-span-3">
+                    <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
+                    <div class="mt-2">
+                        <select id="country" name="country" autocomplete="country-name"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>Mexico</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-span-full">
+                    <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
+                    <div class="mt-2">
+                        <input type="text" name="street-address" id="street-address" autocomplete="street-address"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                </div>
+
+                <div class="sm:col-span-2 sm:col-start-1">
+                    <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+                    <div class="mt-2">
+                        <input type="text" name="city" id="city" autocomplete="address-level2"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
+                    <div class="mt-2">
+                        <input type="text" name="region" id="region" autocomplete="address-level1"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">ZIP / Postal code</label>
+                    <div class="mt-2">
+                        <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-b border-gray-900/10 pb-12">
+            <div class="bg-white rounded-md w-full mt-6">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Triệu chứng</label>
+                <div class="overflow-x-auto mt-2">
+                    <table class="table-auto border-collapse w-full">
+                        <thead>
+                            <tr class="bg-gray-200 text-sm font-medium text-gray-700 text-left" style="font-size: 0.9674rem">
+                                <th class="px-4 py-2">Có triệu chứng</th>
+                                <th class="px-4 py-2">Có</th>
+                                <th class="px-4 py-2">Không</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-normal text-gray-700">
+                            <tr class="hover:bg-gray-100 border-b border-gray-200 py-10">
+                                <td class="px-4 py-4">Intro to CSS</td>
+                                <td class="px-4 py-4">Adam</td>
+                                <td class="px-4 py-4">858</td>
+                            </tr>
+                            <tr class="hover:bg-gray-100 border-b border-gray-200 py-4">
+                                <td class="px-4 py-4 flex items-center">
+                                    A Long and Winding Tour of the History of UI Frameworks and Tools and the Impact on Design
+                                </td>
+                                <td class="px-4 py-4">Adam</td>
+                                <td class="px-4 py-4">112</td>
+                            </tr>
+                            <tr class="hover:bg-gray-100  border-gray-200">
+                                <td class="px-4 py-4">Intro to JavaScript</td>
+                                <td class="px-4 py-4">Chris</td>
+                                <td class="px-4 py-4">1,280</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/healthdeclaration
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: thanhtuanle939@gmail.com
+    password: luts nmru gsio ljdv
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+application:
+  security:
+    jwt:
+      secret-key: 6250655368566B5970337336763979244226452948404D635166546A576E5A71
+      expiration: 86400000 # 1 day
+      refresh-token:
+        expiration: 604800000 # 7 days
+  cloudinary:
+    cloud-name: dxrfmq2ru
+    api-key: 112833755154668
+    api-secret: p_FTPqnW59hgEE_mLXWBucIrtS8
+  default-avatar: https://res-console.cloudinary.com/dxrfmq2ru/thumbnails/v1/image/upload/v1717316918/c3hlODN1N3BzNTcxZngxN2hxcnM=/drilldown
+  verify-url: http://localhost:4200/auth/verify/

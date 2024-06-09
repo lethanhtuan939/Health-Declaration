@@ -1,0 +1,246 @@
+<!-- This is an example component -->
+<div class="w-full mx-auto">
+    <div class="border-b border-gray-900/10 pb-4">
+        <h2 class="text-2xl mb-2 font-semibold leading-7 text-gray-900">Quản lý thông báo</h2>
+    </div>
+
+    <form class="overflow-x-auto flex items-center justify-between" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+        <div class="flex items-center flex-grow">
+            <div class="py-4">
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <input type="text" id="table-search" name="search" formControlName="search"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 pl-10 p-2.5" placeholder="Search for items...">
+                </div>
+            </div>
+        </div>
+
+        <div class="ml-6">
+            <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 
+                            focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Tìm kiếm / Lọc
+            </button>
+        </div>
+    </form>
+
+    <div class="mt-2">
+        <div class="mb-4 flex items-center justify-between">
+            <div>
+                <select id="page-size" name="page-size" (change)="onPageSizeChange($event)"
+                    class="block rounded-md px-2 border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                    <option>20</option>
+                </select>
+            </div>
+            <div class="flex flex-row items-center">
+                <label for="type" class="mr-2">Loại bệnh</label>
+                <select id="type" name="type" (change)="onTypeChange($event)"
+                    class="block rounded-md px-2 border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <option value="ALL">Tất cả</option>
+                    <option value="INFECTIOUS">Bệnh truyền nhiễm</option>
+                    <option value="SKIN_DISEASE">Bệnh ngoài da</option>
+                    <option value="CHRONIC">Bệnh mãn tính</option>
+                </select>
+            </div>
+            <div class="flex flex-row items-center">
+                <label for="status" class="mr-2">Trạng thái</label>
+                <select id="status" name="status" (change)="onStatusChange($event)"
+                    class="block rounded-md px-2 border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <option value="ALL">Tất cả</option>
+                    <option value="NORMAL">Bình thường</option>
+                    <option value="ENDEMIC">Đang lây nhiễm</option>
+                    <option value="RARE">Hiếm gặp</option>
+                    <option value="NEW_DISEASE">Bệnh mới</option>
+                    <option value="EPIDEMIC">Dịch bệnh</option>
+                    <option value="PANDEMIC">Đại dịch</option>
+                    <option value="ERADICATED">Đã xóa sổ</option>
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <div>
+                    <app-spinner-button [buttonText]="'Xuất danh sách'" (buttonClick)="onExcelExport()"></app-spinner-button>
+                </div>
+
+                <div class="ml-4">
+                    <button (click)="toggleAddModal()"
+                        class="w-full font-semibold flex items-center justify-center py-2 px-4 outline-none border border-transparent rounded-md shadow-sm text-sm text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300"
+                        type="button">
+                        + Thêm bệnh
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <table class="w-full text-sm text-left shadow-md">
+            <thead class="text-xs uppercase bg-gray-300">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Mã bệnh
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Tên bệnh
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Triệu chứng
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Loại bệnh
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Trạng thái
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of pathologicals" class="bg-white border-b hover:bg-gray-200 text-gray-900">
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+                        {{p.id}}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{p.name}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{getDescription(p)}}
+                        <a (click)="toggleDescription(p.id ?? 1); $event.preventDefault()" class="text-blue-600 cursor-pointer hover:underline">
+                            {{showFullDescriptionMap[p.id ?? 1] ? 'Thu gọn' : 'Xem thêm'}}
+                        </a>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="text-xs font-semibold me-2 px-2.5 py-0.5 rounded-full" [ngClass]="getTypeClass(p.type)">{{p.type}}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="text-xs font-semibold me-2 px-2.5 py-0.5 rounded-full" [ngClass]="getStatusClass(p.status)">{{p.status}}</span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <a (click)="openEditModal(p)" class="font-medium cursor-pointer text-blue-600 hover:underline">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <div>
+            <p class="text-sm text-gray-700">
+                Showing
+                <span class="font-medium">{{ pageNo * pageSize + 1 }}</span>
+                to
+                <span class="font-medium">{{ (pageNo + 1) * pageSize > totalItems ? totalItems : (pageNo + 1) * pageSize }}</span>
+                of
+                <span class="font-medium">{{totalItems}}</span>
+                results
+            </p>
+        </div>
+        <div>
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                <button (click)="previousPage()" [disabled]="pageNo === 0"
+                    class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-200 focus:z-20 focus:outline-offset-0">
+                    <span class="sr-only">Previous</span>
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <ng-container *ngFor="let page of pagination">
+                    <button *ngIf="isNumber(page)" (click)="goToPage(page - 1)" [class.bg-indigo-600]="pageNo + 1 === page" [class.text-white]="pageNo + 1 === page"
+                        [class.text-gray-400]="pageNo + 1 !== page"
+                        class="relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        {{ page }}
+                    </button>
+                    <span *ngIf="!isNumber(page)" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-400">...</span>
+                </ng-container>
+                <button (click)="nextPage()" [disabled]="pageNo === totalPages - 1"
+                    class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-200 focus:z-20 focus:outline-offset-0">
+                    <span class="sr-only">Next</span>
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="showModal" class="fixed top-0 right-0 left-0 bottom-0 z-40 overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-75 flex justify-center items-center w-full md:inset-0 h-screen">
+    <div class="overflow-y-auto overflow-x-hidden z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-lg max-h-full">
+            <div class="relative bg-white rounded-lg shadow">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 class="text-2xl font-semibold text-gray-900">
+                        {{ isEditing ? 'Cập nhật bệnh dịch' : 'Thêm mới bệnh dịch' }}
+                    </h3>
+                    <button (click)="toggleAddModal()" type="button"
+                        class="text-gray-400 bg-transparent hover:bg-rose-600 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center "
+                        data-modal-toggle="crud-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <form class="gap-4 p-4 grid" [formGroup]="addForm" (ngSubmit)="onAdd()" (keypress.enter)="onAdd()">
+                    <div class="flex gap-4">
+                        <div class="flex-1">
+                            <label for="type-add" class="block text-sm font-medium text-gray-700">Loại bệnh</label>
+                            <select id="type-add" name="type-add" formControlName="type"
+                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="INFECTIOUS">Bệnh truyền nhiễm</option>
+                                <option value="SKIN_DISEASE">Bệnh ngoài da</option>
+                                <option value="CHRONIC">Bệnh mãn tính</option>
+                            </select>
+                            <div class="text-rose-500 text-sm" *ngIf="(addForm.get('type')?.errors?.['required'] && addForm.controls['type'].touched)">
+                                Trường này là bắt buộc!
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <label for="status-add" class="block text-sm font-medium text-gray-700">Trạng thái</label>
+                            <select id="status-add" name="status-add" formControlName="status"
+                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="NORMAL">Bình thường</option>
+                                <option value="ENDEMIC">Đang lây nhiễm</option>
+                                <option value="RARE">Hiếm gặp</option>
+                                <option value="NEW_DISEASE">Bệnh mới</option>
+                                <option value="EPIDEMIC">Dịch bệnh</option>
+                                <option value="PANDEMIC">Đại dịch</option>
+                                <option value="ERADICATED">Đã xóa sổ</option>
+                            </select>
+                            <div class="text-rose-500 text-sm" *ngIf="(addForm.get('status')?.errors?.['required'] && addForm.controls['status'].touched)">
+                                Trường này là bắt buộc!
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Tên bệnh</label>
+                        <input type="text" name="name" id="name" formControlName="name"
+                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <div class="text-rose-500 text-sm" *ngIf="(addForm.get('name')?.errors?.['required'] && addForm.controls['name'].touched)">
+                            Trường này là bắt buộc!
+                        </div>
+                    </div>
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700">Mô tả triệu chứng</label>
+                        <textarea id="description" name="description" rows="6" formControlName="description"
+                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                        <div class="text-rose-500 text-sm" *ngIf="(addForm.get('description')?.errors?.['required'] && addForm.controls['description'].touched)">
+                            Trường này là bắt buộc!
+                        </div>
+                    </div>
+                    <button type="submit" [disabled]="!addForm.valid" [ngClass]="{'disabled-button': !addForm.valid}" class=" inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
+            focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">{{ isEditing ? 'Cập nhật' : 'Thêm' }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
