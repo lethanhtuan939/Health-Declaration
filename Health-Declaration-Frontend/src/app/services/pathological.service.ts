@@ -33,6 +33,10 @@ export class PathologicalService {
     );
   }
 
+  findAllWithoutPaging() {
+    return this.httpClient.get<ResponseObject>(`${this.BASE_URL}pathological/`);
+  }
+
   findAll(search: string = '', pageNo: number = 0, pageSize: number = 10, sortBy: string = 'id', type: string = 'ALL', status: string = 'ALL'): Observable<ResponseObject> {
     let params = new HttpParams()
       .set('q', search)

@@ -1,5 +1,6 @@
 package com.healthdeclaration.entities;
 
+import com.healthdeclaration.exception.UserInactiveException;
 import com.healthdeclaration.util.enumeration.Gender;
 import com.healthdeclaration.util.enumeration.UserStatus;
 import jakarta.persistence.*;
@@ -107,6 +108,9 @@ public class User extends AbstractEntity<Long> implements Serializable, UserDeta
 
     @Override
     public boolean isEnabled() {
-        return this.status == UserStatus.ACTIVE;
+        if (this.status != UserStatus.ACTIVE) {
+            throw new UserInactiveException("Tài khoản của bạn đã bị khóa!");
+        }
+        return true;
     }
 }

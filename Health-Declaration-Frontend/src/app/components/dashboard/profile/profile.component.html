@@ -4,7 +4,11 @@
     </div>
     <div class="mx-4 flex items-start flex-col">
         <h2 class="font-bold">{{user.fullName}}</h2>
-        <p>Cán bộ y tế</p>
+        <div class="flex">
+            <p *ngIf="hasRole('USER')">Người dân,</p> &nbsp;
+            <p *ngIf="hasRole('MEDICAL_STAFF')">Cán bộ y tế,</p> &nbsp;
+            <p *ngIf="hasRole('ADMIN')">Quản trị viên</p>
+        </div>
     </div>
 </div>
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="px-6 lg:px-0 profile-cols grid lg:grid-cols-3 mt-5 gap-8">

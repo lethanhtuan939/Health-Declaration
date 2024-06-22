@@ -7,6 +7,7 @@ import { Role } from 'src/app/model/role';
 import { User } from 'src/app/model/user.interface';
 import { UserService } from 'src/app/services/user.service';
 import { SpinnerButtonComponent } from '../../shared/spinner-button/spinner-button.component';
+import { utils, writeFile } from 'xlsx';
 
 @Component({
   selector: 'app-users',
@@ -16,6 +17,7 @@ import { SpinnerButtonComponent } from '../../shared/spinner-button/spinner-butt
 export class UsersComponent implements OnInit {
 
   @ViewChild('spinnerButton') spinnerButton!: SpinnerButtonComponent;
+  @ViewChild('exportButton') exportButton!: SpinnerButtonComponent;
   isSpinnerLoading = false;
 
   roleForm !: FormGroup;
@@ -80,7 +82,27 @@ export class UsersComponent implements OnInit {
   }
 
   onExcelExport() {
+    this.exportButton.isLoading = true;
+    const newUsers = this.users.map((user) => {
+      return {
+        ...user,
+        id: user.id?.toString(),
+      };
+    });
 
+    console.log(newUsers);
+    const heading = [['ID', 'Họ và tên', 'Số điện thoại', 'Email', 'Ngày sinh', 'Giới tính', 'Ảnh đại diện', 'Địa chỉ', 'Số BHYT', 'Số CCCD', 'Trạng thái', 'UniqueId', 'CreatedAt', 'UpdatedAt']];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet([]);
+    utils.sheet_add_aoa(ws, heading);
+    utils.sheet_add_json(ws, newUsers, {
+      origin: 'A2',
+      skipHeader: true,
+    });
+    utils.book_append_sheet(wb, ws, 'Users');
+    writeFile(wb, 'data-' + new Date().getTime() + '.csv');
+
+    this.exportButton.stopLoading();
   }
 
   onPageSizeChange(event: Event) {

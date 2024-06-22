@@ -8,21 +8,29 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <a routerLink="/dashboard" class="rounded-md px-3 py-2 text-sm font-medium" [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Dashboard',
-                                 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Dashboard' }" (click)="onItemClick('Dashboard')">Trang chủ</a>
-                            <a routerLink="notifications" class="rounded-md px-3 py-2 text-sm font-medium" [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Notification',
-                                 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Notification' }" (click)="onItemClick('Notification')">Quản lý thông báo</a>
-                            <a routerLink="pathological" class="rounded-md px-3 py-2 text-sm font-medium" [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Pathological',
-                                                                 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Pathological' }" (click)="onItemClick('Pathological')">Quản lý
-                                bệnh dịch</a>
-                            <a routerLink="users" class="rounded-md px-3 py-2 text-sm font-medium" [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Users',
-                                                                                                 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Users' }"
-                                (click)="onItemClick('Users')">Quản lý tài khoản</a>
-                            <a routerLink="declaration" class="rounded-md px-3 py-2 text-sm font-medium" [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Declaration',
-                                                                 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Declaration' }" (click)="onItemClick('Declaration')">Khai báo
-                                y tế</a>
+                            <a routerLink="/dashboard" class="rounded-md px-3 py-2 text-sm font-medium"
+                                [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Dashboard', 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Dashboard' }"
+                                (click)="onItemClick('Dashboard')">Trang chủ</a>
+
+                            <a *ngIf="hasRole('MEDICAL_STAFF')" routerLink="notifications" class="rounded-md px-3 py-2 text-sm font-medium"
+                                [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Notification', 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Notification' }"
+                                (click)="onItemClick('Notification')">Cập nhật thông báo</a>
+
+                            <a *ngIf="hasRole('MEDICAL_STAFF')" routerLink="pathological" class="rounded-md px-3 py-2 text-sm font-medium"
+                                [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Pathological', 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Pathological' }"
+                                (click)="onItemClick('Pathological')">Cập nhật bệnh dịch</a>
+
+                            <a *ngIf="hasRole('ADMIN')" routerLink="users" class="rounded-md px-3 py-2 text-sm font-medium"
+                                [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Users', 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Users' }"
+                                (click)="onItemClick('Users')">Cập nhật tài
+                                khoản</a>
+
+                            <a routerLink="declaration" class="rounded-md px-3 py-2 text-sm font-medium"
+                                [ngClass]="{ 'bg-gray-900 text-white': selectedItem === 'Declaration', 'text-gray-300 hover:bg-gray-700 hover:text-white': selectedItem !== 'Declaration' }"
+                                (click)="onItemClick('Declaration')">Khai báo y tế</a>
                         </div>
                     </div>
+
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-4 flex items-center md:ml-6">

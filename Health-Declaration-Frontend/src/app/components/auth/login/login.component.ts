@@ -41,15 +41,21 @@ export class LoginComponent implements OnInit {
     this.spinnerButton.isLoading = true;
     this.authService.login(data.email, data.password).subscribe({
       next: (response) => {
-        this.spinnerButton.stopLoading();
+        if (response.status === 200) {
+          this.spinnerButton.stopLoading();
 
-        const token: TokenResponse = response.data as TokenResponse;
+          const token: TokenResponse = response.data as TokenResponse;
 
-        this.tokenService.token = token.accessToken as string;
+          this.tokenService.token = token.accessToken as string;
 
-        this.toastr.success("Login Successfully!", "Successfully!");
+          this.toastr.success("Login Successfully!", "Successfully!");
 
-        this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard']);
+        }
+        else if (response.status === 401) {
+          this.spinnerButton.stopLoading();
+          this.toastr.error(response.message, "Error!");
+        }
       },
       error: (error) => {
         this.isError = true;

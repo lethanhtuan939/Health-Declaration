@@ -67,4 +67,12 @@ public class PathologicalServiceImpl implements PathologicalService {
 
         return modelMapper.map(pathologicalRepository.save(pathological), PathologicalDto.class);
     }
+
+    @Override
+    public List<PathologicalDto> findAll() {
+        List<Pathological> list = pathologicalRepository.findAll();
+        return list.stream().map(pathological ->
+                modelMapper.map(pathological, PathologicalDto.class))
+                .collect(Collectors.toList());
+    }
 }

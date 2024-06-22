@@ -48,6 +48,16 @@ public class PathologicalController {
                 .build());
     }
 
+    @GetMapping("/")
+    public ResponseEntity<ResponseObject<List<PathologicalDto>>> findAll() {
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseObject.<List<PathologicalDto>>builder()
+                .status(HttpStatus.OK.value())
+                .message("Successfully!")
+                .data(pathologicalService.findAll())
+                .build());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject<PathologicalDto>> findById(@PathVariable Integer id) {
 

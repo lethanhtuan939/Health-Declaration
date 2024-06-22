@@ -29,13 +29,22 @@ const routes: Routes = [
       { path: 'notifications/add', component: NotificationAddComponent, title: 'Thêm thông báo', canActivate: [authGuard] },
       { path: 'change-password', component: ChangePasswordComponent, title: 'Thay đổi mật khẩu', canActivate: [authGuard] },
       { path: 'declaration', component: DeclarationComponent, title: 'Khai báo y tế', canActivate: [authGuard] },
-      { path: 'users', component: UsersComponent, title: 'Quản lý tài khoản người dùng', canActivate: [authGuard] },
+      { path: 'users', component: UsersComponent, title: 'Quản lý tài khoản', canActivate: [authGuard] },
       { path: 'declaration-history', component: DeclarationHistoryComponent, title: 'Lịch sử khai báo y tế', canActivate: [authGuard] }
     ],
   }
 ]
 
 @NgModule({
+  imports: [
+    CommonModule,
+    AngularEditorModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    SharedModule,
+    FormsModule,
+    RouterModule.forChild(routes),
+  ],
   declarations: [
     DashboardComponent,
     ProfileComponent,
@@ -48,15 +57,7 @@ const routes: Routes = [
     PathologicalComponent,
     UsersComponent
   ],
-  imports: [
-    CommonModule,
-    AngularEditorModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(routes),
-    SharedModule,
-    FormsModule
-  ]
+  providers: []
 })
 export class DashboardModule {
 

@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Role } from 'src/app/model/role';
 import { User } from 'src/app/model/user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -17,7 +18,7 @@ export class DashboardComponent implements OnInit {
 
   selectedItem: string = 'Dashboard';
   isMenuUserOpen = false;
-  isMenuOpen = false;
+  isMenuOpen: boolean = false;
 
   constructor(private eRef: ElementRef,
     private tokenService: TokenService,
@@ -50,6 +51,7 @@ export class DashboardComponent implements OnInit {
       this.userService.findByToken().subscribe({
         next: (response) => {
           this.user = response.data as User;
+          this.authService.setCurrentUser(this.user);
         },
         error: (error) => {
           this.toatr.error('Failed to fetch user details');
@@ -63,6 +65,10 @@ export class DashboardComponent implements OnInit {
         this.user.avatar = avatarUrl;
       }
     });
+  }
+
+  hasRole(roleName: string): boolean {
+    return this.user?.roles?.some(role => role.name === roleName)!;
   }
 
   onLogout() {

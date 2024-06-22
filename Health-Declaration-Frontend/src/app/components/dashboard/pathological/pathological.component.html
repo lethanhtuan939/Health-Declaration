@@ -1,7 +1,7 @@
 <!-- This is an example component -->
 <div class="w-full mx-auto">
     <div class="border-b border-gray-900/10 pb-4">
-        <h2 class="text-2xl mb-2 font-semibold leading-7 text-gray-900">Quản lý thông báo</h2>
+        <h2 class="text-2xl mb-2 font-semibold leading-7 text-gray-900">Thông tin bệnh dịch</h2>
     </div>
 
     <form class="overflow-x-auto flex items-center justify-between" [formGroup]="searchForm" (ngSubmit)="onSearch()">
@@ -65,7 +65,7 @@
 
             <div class="flex items-center">
                 <div>
-                    <app-spinner-button [buttonText]="'Xuất danh sách'" (buttonClick)="onExcelExport()"></app-spinner-button>
+                    <app-spinner-button #exportButton [buttonText]="'Xuất danh sách'" (buttonClick)="onExcelExport()"></app-spinner-button>
                 </div>
 
                 <div class="ml-4">
@@ -116,10 +116,10 @@
                         </a>
                     </td>
                     <td class="px-6 py-4">
-                        <span class="text-xs font-semibold me-2 px-2.5 py-0.5 rounded-full" [ngClass]="getTypeClass(p.type)">{{p.type}}</span>
+                        <span class="text-xs font-semibold me-2 px-2.5 py-0.5 rounded-full" [ngClass]="getTypeClass(p.type)">{{translateType(p.type)}}</span>
                     </td>
                     <td class="px-6 py-4">
-                        <span class="text-xs font-semibold me-2 px-2.5 py-0.5 rounded-full" [ngClass]="getStatusClass(p.status)">{{p.status}}</span>
+                        <span class="text-xs font-semibold me-2 px-2.5 py-0.5 rounded-full" [ngClass]="getStatusClass(p.status)">{{translateStatus(p.status)}}</span>
                     </td>
                     <td class="px-6 py-4 text-right">
                         <a (click)="openEditModal(p)" class="font-medium cursor-pointer text-blue-600 hover:underline">Edit</a>

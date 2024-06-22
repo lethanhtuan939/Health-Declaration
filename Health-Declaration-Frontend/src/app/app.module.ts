@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { httpInterceptorProviders } from './interceptor/htttp-token.interceptor';
+import { timeout } from 'rxjs';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 
 @NgModule({
@@ -16,6 +18,7 @@ import { httpInterceptorProviders } from './interceptor/htttp-token.interceptor'
     AppComponent,
     HomeComponent,
     NotFoundComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,11 @@ import { httpInterceptorProviders } from './interceptor/htttp-token.interceptor'
   ],
   providers: [
     provideAnimations(),
-    provideToastr(),
+    provideToastr({
+      timeOut: 2000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     httpInterceptorProviders,
   ],
   bootstrap: [AppComponent]

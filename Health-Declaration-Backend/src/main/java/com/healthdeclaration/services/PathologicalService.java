@@ -14,4 +14,6 @@ public interface PathologicalService {
     PathologicalDto findById(Integer id);
 
     PathologicalDto createOrUpdate(PathologicalDto pathologicalDto);
+
+    List<PathologicalDto> findAll();
 }

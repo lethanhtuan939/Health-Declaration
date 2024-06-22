@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Pathological } from 'src/app/model/pathological.interface';
 import { PathologicalService } from 'src/app/services/pathological.service';
+import { utils, writeFile } from 'xlsx';
+import { SpinnerButtonComponent } from '../../shared/spinner-button/spinner-button.component';
 
 @Component({
   selector: 'app-pathological',
@@ -11,6 +13,7 @@ import { PathologicalService } from 'src/app/services/pathological.service';
   styleUrls: ['./pathological.component.scss']
 })
 export class PathologicalComponent implements OnInit {
+  @ViewChild('exportButton') exportButton!: SpinnerButtonComponent;
 
   addForm!: FormGroup;
   searchForm!: FormGroup;
@@ -209,20 +212,37 @@ export class PathologicalComponent implements OnInit {
   }
 
   onExcelExport() {
+    this.exportButton.isLoading = true;
+    const newUsers = this.pathologicals.map((pathological) => {
+      return {
+        ...pathological,
+        id: pathological.id?.toString(),
+      };
+    });
 
+    console.log(newUsers);
+    const heading = [['ID', 'Tên bệnh', 'Triệu chứng', 'Loại bệnh', 'Trạng thái']];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet([]);
+    utils.sheet_add_aoa(ws, heading);
+    utils.sheet_add_json(ws, newUsers, {
+      origin: 'A2',
+      skipHeader: true,
+    });
+    utils.book_append_sheet(wb, ws, 'Users');
+    writeFile(wb, 'data-' + new Date().getTime() + '.csv');
+
+    this.exportButton.stopLoading();
   }
 
   maxDescriptionLength = 50;
 
-  // Tạo một đối tượng ánh xạ để lưu trạng thái hiển thị của từng description
   showFullDescriptionMap: { [key: number]: boolean } = {};
 
-  // Hàm để chuyển đổi trạng thái hiển thị toàn bộ hoặc cắt ngắn
   toggleDescription(id: number): void {
     this.showFullDescriptionMap[id] = !this.showFullDescriptionMap[id];
   }
 
-  // Hàm để lấy phần mô tả cần hiển thị
   getDescription(p: Pathological): string {
     const id = p.id ?? 1;
     if (this.showFullDescriptionMap[id]) {
@@ -252,6 +272,28 @@ export class PathologicalComponent implements OnInit {
       case 'SKIN_DISEASE': return 'bg-yellow-200 text-yellow-800';
       case 'CHRONIC': return 'bg-red-200 text-red-800';
       default: return 'bg-gray-200 text-gray-800';
+    }
+  }
+
+  translateType(type: string): string {
+    switch (type) {
+      case 'INFECTIOUS': return 'Bệnh truyền nhiễm';
+      case 'SKIN_DISEASE': return 'Bệnh ngoài da';
+      case 'CHRONIC': return 'Bệnh mãn tính';
+      default: return 'Khác';
+    }
+  }
+
+  translateStatus(status: string): string {
+    switch (status) {
+      case 'NORMAL': return 'Bình thường';
+      case 'ENDEMIC': return 'Đang lây nhiễm';
+      case 'RARE': return 'Hiếm gặp';
+      case 'NEW_DISEASE': return 'Mới phát hiện';
+      case 'EPIDEMIC': return 'Dịch bệnh';
+      case 'PANDEMIC': return 'Toàn cầu';
+      case 'ERADICATED': return 'Đã xóa sổ';
+      default: return 'Khác';
     }
   }
 }

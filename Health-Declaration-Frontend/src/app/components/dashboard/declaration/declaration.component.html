@@ -3,15 +3,12 @@
         <div class="flex md:items-center justify-end md:justify-between flex-col md:flex-row">
             <div class="border-b border-gray-900/10 pb-4">
                 <h2 class="text-2xl mb-2 font-semibold leading-7 text-gray-900">Tờ khai y tế</h2>
-                <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
+                <p class="mt-1 text-sm leading-6 text-gray-600">Trung thực khai báo những bệnh đã mắc phải trước khi vào thành phố.</p>
             </div>
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <button type="button" class="text-sm font-semibold leading-6 text-gray-900 underline">Hủy bỏ</button>
-                <!-- <button type="submit" disabled
-                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Lưu thông tin
-                </button> -->
+
                 <app-spinner-button [buttonText]="'Lưu thông tin'"></app-spinner-button>
             </div>
         </div>
@@ -26,10 +23,6 @@
                             <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900">Bệnh nhân</label>
                         </div>
                         <div class="flex items-center me-20">
-                            <input id="inline-2-radio" type="radio" value="Người nhà" name="type_declare" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                            <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900">Người nhà</label>
-                        </div>
-                        <div class="flex items-center me-20">
                             <input id="inline-3-radio" type="radio" value="Khai hộ" name="type_declare" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
                             <label for="inline-3-radio" class="ms-2 text-sm font-medium text-gray-900">Khai hộ</label>
                         </div>
@@ -37,7 +30,7 @@
                 </div>
 
                 <div class="sm:col-span-3">
-                    <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+                    <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Căn cước công dân</label>
                     <div class="mt-2">
                         <input type="text" name="first-name" id="first-name" autocomplete="given-name"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -45,42 +38,52 @@
                 </div>
 
                 <div class="sm:col-span-3">
-                    <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
+                    <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Số CCCD của người khai (nếu khai hộ)</label>
                     <div class="mt-2">
                         <input type="text" name="last-name" id="last-name" autocomplete="family-name"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                     </div>
                 </div>
 
-                <div class="sm:col-span-4">
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+                <div class="sm:col-span-2">
+                    <label for="disease" class="block text-sm font-medium leading-6 text-gray-900">Bệnh phổ biến</label>
                     <div class="mt-2">
-                        <input id="email" name="email" type="email" autocomplete="email"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <select id="disease" name="disease" (change)="onSelectPathological($event)"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            <option selected>---Chọn---</option>
+                            <option *ngFor="let pathological of pathologicalsWithoutPaging" [value]="pathological.id">{{ pathological.name }}</option>
+                        </select>
+                        <p class="mt-2" *ngIf="selectedPathological">{{ selectedPathological.description }}</p>
+
+                        <div>
+                            <p class="w-full h-[1px] bg-gray-400 mt-4"></p>
+                            <label for="other" class="block text-sm font-medium leading-6 text-gray-900">Hoặc bệnh khác</label>
+                            <div class="mt-2">
+                                <input type="text" name="other" id="other" autocomplete="family-name"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="sm:col-span-3">
-                    <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
+
+                <div class="sm:col-span-4">
+                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Có triệu chứng</label>
                     <div class="mt-2">
-                        <select id="country" name="country" autocomplete="country-name"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                            <option>United States</option>
-                            <option>Canada</option>
-                            <option>Mexico</option>
-                        </select>
+                        <textarea id="email" name="email" type="email" autocomplete="email" rows="9"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                     </div>
                 </div>
 
                 <div class="col-span-full">
-                    <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
+                    <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Lịch trình</label>
                     <div class="mt-2">
-                        <input type="text" name="street-address" id="street-address" autocomplete="street-address"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <textarea type="text" name="street-address" id="street-address" autocomplete="street-address" rows="4"
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                     </div>
                 </div>
 
-                <div class="sm:col-span-2 sm:col-start-1">
+                <!-- <div class="sm:col-span-2 sm:col-start-1">
                     <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
                     <div class="mt-2">
                         <input type="text" name="city" id="city" autocomplete="address-level2"
@@ -102,11 +105,11 @@
                         <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
-        <div class="border-b border-gray-900/10 pb-12">
+        <!-- <div class="border-b border-gray-900/10 pb-12">
             <div class="bg-white rounded-md w-full mt-6">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Triệu chứng</label>
                 <div class="overflow-x-auto mt-2">
@@ -139,6 +142,21 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div> -->
+        <div class="flex">
+            <div>
+                <label
+                    class="w-56 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-400 hover:text-white">
+                    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                    </svg>
+                    <span class="mt-2 text-base leading-normal">Tải lên minh chứng</span>
+                    <input type="file" class="hidden" (change)="onFileSelected($event)" />
+                </label>
+            </div>
+            <div class="ml-4">
+                <img *ngIf="imageUrl" [src]="imageUrl" alt="Image preview" class="w-full h-full object-cover rounded-lg shadow-lg" />
             </div>
         </div>
     </div>

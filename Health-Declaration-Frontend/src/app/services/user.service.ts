@@ -14,7 +14,7 @@ export class UserService {
   userAvatar$: Observable<string | null> = this.userAvatarSubject.asObservable();
 
   private usersSubject = new BehaviorSubject<User[]>([]);
-  pathologicals$ = this.usersSubject.asObservable();
+  user$ = this.usersSubject.asObservable();
 
   private readonly BASE_URL = environment.apiUrl;
 

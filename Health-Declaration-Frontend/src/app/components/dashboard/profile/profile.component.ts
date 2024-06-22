@@ -100,17 +100,23 @@ export class ProfileComponent implements OnInit {
     this.spinnerButton.isLoading = true;
     this.userService.update(this.uniqueId, formData, this.avatar).subscribe((response: ResponseObject) => {
       this.toast.success(response.message, response.status === 200 ? 'Success' : 'Error');
-      this.user = response.data;
-      this.spinnerButton.stopLoading();
+      if (response.status === 200) {
+        this.user = response.data;
+        this.spinnerButton.stopLoading();
 
-      this.isLoading = false;
+        this.isLoading = false;
 
-      this.findByUniqueId(this.user.uniqueId!);
-      this.userService.updateUserAvatar(this.user.avatar || null);
+        this.findByUniqueId(this.user.uniqueId!);
+        this.userService.updateUserAvatar(this.user.avatar || null);
+      }
     },
       (error) => {
         this.isLoading = false;
         this.spinnerButton.stopLoading();
       });
+  }
+
+  hasRole(roleName: string): boolean {
+    return this.user?.roles?.some(role => role.name === roleName)!;
   }
 }

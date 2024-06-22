@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../model/user.interface';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -11,13 +11,23 @@ import { ResponseObject } from '../model/response/response-object';
 })
 export class AuthService {
   private readonly BASE_URL = environment.apiUrl;
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
+
   constructor(
     private router: Router,
     private httpClient: HttpClient
-  ) { }
+  ) {
+    this.currentUserSubject = new BehaviorSubject<User | null>(null);
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public get currentUserValue(): User | null {
+    return this.currentUserSubject.value;
+  }
 
   login(email: string, password: string): Observable<ResponseObject> {
-    return this.httpClient.post<ResponseObject>(`${this.BASE_URL}auth/login`, { email, password })
+    return this.httpClient.post<ResponseObject>(`${this.BASE_URL}auth/login`, { email, password });
   }
 
   verify(token: string): Observable<ResponseObject> {
@@ -32,12 +42,16 @@ export class AuthService {
     this.httpClient.get<ResponseObject>(`${this.BASE_URL}auth/logout`).subscribe({
       next: () => {
         localStorage.removeItem('token');
+        this.currentUserSubject.next(null);
         this.router.navigate(['/']);
       },
       error: (error) => {
         console.error('Failed to logout', error);
       }
     });
+  }
 
+  setCurrentUser(user: User) {
+    this.currentUserSubject.next(user);
   }
 }

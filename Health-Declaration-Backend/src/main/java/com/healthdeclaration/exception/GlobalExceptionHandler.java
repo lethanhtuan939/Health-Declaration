@@ -70,6 +70,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseObject);
     }
 
+    @ExceptionHandler(UserInactiveException.class)
+    public ResponseEntity<ResponseObject<Object>> handleUserInactiveException(UserInactiveException ex) {
+        ResponseObject<Object> responseObject = ResponseObject.<Object>builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseObject);
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ResponseObject<Object>> handleResourceNotFoundException(ResourceNotFoundException ex) {
 
