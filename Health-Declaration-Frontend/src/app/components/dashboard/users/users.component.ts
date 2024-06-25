@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { UserStatus } from 'src/app/model/enum/user-status.enum';
@@ -90,7 +90,6 @@ export class UsersComponent implements OnInit {
       };
     });
 
-    console.log(newUsers);
     const heading = [['ID', 'Họ và tên', 'Số điện thoại', 'Email', 'Ngày sinh', 'Giới tính', 'Ảnh đại diện', 'Địa chỉ', 'Số BHYT', 'Số CCCD', 'Trạng thái', 'UniqueId', 'CreatedAt', 'UpdatedAt']];
     const wb = utils.book_new();
     const ws = utils.json_to_sheet([]);
